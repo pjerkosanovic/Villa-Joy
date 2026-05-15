@@ -208,28 +208,19 @@ em { font-style: italic; color: var(--terracotta); }
 .hero-bg {
   position: absolute;
   inset: 0;
-  background:
-    radial-gradient(ellipse at 22% 32%, rgba(43,124,168,.28) 0%, transparent 52%),
-    radial-gradient(ellipse at 78% 68%, rgba(196,98,45,.22) 0%, transparent 48%),
-    linear-gradient(160deg,
-      #152E4A 0%,
-      #1C4A6E 12%,
-      #2B7CA8 32%,
-      #4E9DC0 48%,
-      #C4956A 66%,
-      #C4622D 82%,
-      #9E4A1E 100%
-    );
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 .hero-bg::after {
   content: '';
   position: absolute;
   inset: 0;
   background: linear-gradient(
-    to bottom,
-    rgba(21,46,74,.18) 0%,
-    transparent 45%,
-    rgba(0,0,0,.28) 100%
+    160deg,
+    rgba(0,0,0,.55) 0%,
+    rgba(0,0,0,.35) 50%,
+    rgba(0,0,0,.5) 100%
   );
 }
 
@@ -829,14 +820,146 @@ em { font-style: italic; color: var(--terracotta); }
 
 
 /* =========================================
+   APARTMENTS
+   ========================================= */
+.apartments { background: var(--white); }
+
+.apt-entry {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3.5rem;
+  align-items: center;
+  margin-bottom: 5rem;
+  padding-bottom: 5rem;
+  border-bottom: 1px solid var(--sand);
+}
+.apt-entry:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+.apt-entry--reverse { direction: rtl; }
+.apt-entry--reverse > * { direction: ltr; }
+
+.apt-photos {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: .6rem;
+  height: 380px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+.apt-photo-main {
+  grid-row: 1 / 3;
+  overflow: hidden;
+}
+.apt-photo-sm { overflow: hidden; }
+.apt-photos img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .55s ease;
+  display: block;
+}
+.apt-photos img:hover { transform: scale(1.05); }
+
+.apt-label {
+  display: inline-block;
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--terracotta);
+  margin-bottom: .5rem;
+}
+.apt-name {
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  margin-bottom: 1rem;
+}
+.apt-desc {
+  color: var(--text-muted);
+  line-height: 1.8;
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
+}
+.apt-specs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .65rem;
+  margin-bottom: 2rem;
+}
+.apt-specs li {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  font-size: .88rem;
+  color: var(--text);
+}
+.apt-specs li svg { width: 16px; height: 16px; flex-shrink: 0; color: var(--terracotta); }
+.apt-btn { width: 100%; justify-content: center; }
+
+
+/* =========================================
+   LOCATION (redesigned)
+   ========================================= */
+.location { background: var(--dark); }
+.location .section-label  { color: var(--sand); }
+.location .section-title  { color: var(--white); }
+.section-header--light .section-title { color: var(--white); }
+.section-description--light { color: rgba(255,255,255,.65) !important; }
+
+.location-photos {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: .75rem;
+  height: 440px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  margin-bottom: 2.5rem;
+}
+.loc-photo { overflow: hidden; }
+.loc-photo--main { grid-row: 1 / 3; }
+.loc-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform .55s ease;
+}
+.loc-photo:hover img { transform: scale(1.04); }
+
+.location-facts {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+.loc-fact {
+  display: flex;
+  gap: .75rem;
+  align-items: flex-start;
+}
+.loc-fact svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  color: var(--terracotta-lt);
+  margin-top: .15rem;
+}
+.loc-fact div { display: flex; flex-direction: column; gap: .2rem; }
+.loc-fact strong { color: var(--white); font-size: .9rem; }
+.loc-fact span { color: rgba(255,255,255,.55); font-size: .82rem; line-height: 1.4; }
+
+
+/* =========================================
    RESPONSIVE
    ========================================= */
 @media (max-width: 1024px) {
   .amenities-grid { grid-template-columns: repeat(2, 1fr); }
   .about-grid { gap: 3rem; }
-  .location-grid { gap: 3rem; }
   .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
   .contact-card { position: static; }
+  .apt-entry { grid-template-columns: 1fr; gap: 2rem; }
+  .apt-entry--reverse { direction: ltr; }
+  .apt-photos { height: 320px; }
+  .location-facts { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 768px) {
@@ -880,7 +1003,11 @@ em { font-style: italic; color: var(--terracotta); }
   .gallery-item:nth-child(6) { grid-column: 1/3; grid-row: 4; display: block; }
 
   /* Location */
-  .location-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+  .location-photos { grid-template-columns: 1fr; grid-template-rows: 260px 180px 180px; height: auto; }
+  .loc-photo--main { grid-row: auto; }
+  .location-facts { grid-template-columns: 1fr 1fr; }
+  /* Apartments */
+  .apt-photos { height: 280px; }
 
   /* Footer */
   .footer-grid { grid-template-columns: 1fr; gap: 2.5rem; }

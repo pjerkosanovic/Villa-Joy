@@ -95,6 +95,14 @@ document.addEventListener('keydown', e => {
   if (e.key === 'ArrowRight')  navigate(1);
 });
 
+/* --- Apartment quick-select from "Inquire about X" buttons --- */
+document.querySelectorAll('.apt-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const aptSelect = document.getElementById('apartment');
+    if (aptSelect) aptSelect.value = btn.dataset.apt || '';
+  });
+});
+
 /* --- Date inputs min values --- */
 const checkinEl  = document.getElementById('checkin');
 const checkoutEl = document.getElementById('checkout');
@@ -114,7 +122,7 @@ const bookingForm = document.getElementById('bookingForm');
 const formSuccess = document.getElementById('formSuccess');
 const submitBtn   = document.getElementById('submitBtn');
 
-const requiredFields = ['firstName', 'lastName', 'email', 'checkin', 'checkout', 'guests'];
+const requiredFields = ['firstName', 'lastName', 'email', 'apartment', 'checkin', 'checkout', 'guests'];
 
 requiredFields.forEach(id => {
   document.getElementById(id).addEventListener('input', () => {
