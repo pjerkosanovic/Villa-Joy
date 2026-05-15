@@ -95,6 +95,56 @@ document.addEventListener('keydown', e => {
   if (e.key === 'ArrowRight')  navigate(1);
 });
 
+/* --- Hero slideshow --- */
+const heroSlides = Array.from(document.querySelectorAll('.hero-slide'));
+const heroDots   = Array.from(document.querySelectorAll('.hero-dot'));
+let heroIdx = 0;
+let heroTimer;
+
+function showHeroSlide(n) {
+  heroSlides[heroIdx].classList.remove('active');
+  heroDots[heroIdx].classList.remove('active');
+  heroIdx = ((n % heroSlides.length) + heroSlides.length) % heroSlides.length;
+  heroSlides[heroIdx].classList.add('active');
+  heroDots[heroIdx].classList.add('active');
+}
+
+function startHeroAuto() {
+  clearInterval(heroTimer);
+  heroTimer = setInterval(() => showHeroSlide(heroIdx + 1), 5500);
+}
+
+heroDots.forEach((dot, i) => {
+  dot.addEventListener('click', () => { showHeroSlide(i); startHeroAuto(); });
+});
+
+startHeroAuto();
+
+/* --- Apartment sliders --- */
+document.querySelectorAll('.apt-slider').forEach(slider => {
+  const track = slider.querySelector('.apt-slides');
+  const items = slider.querySelectorAll('.apt-slide');
+  const dots  = Array.from(slider.querySelectorAll('.slider-dot'));
+  let cur = 0;
+
+  function goTo(n) {
+    cur = ((n % items.length) + items.length) % items.length;
+    track.style.transform = `translateX(-${cur * 100}%)`;
+    dots.forEach((d, i) => d.classList.toggle('active', i === cur));
+  }
+
+  slider.querySelector('.slider-prev').addEventListener('click', e => { e.stopPropagation(); goTo(cur - 1); });
+  slider.querySelector('.slider-next').addEventListener('click', e => { e.stopPropagation(); goTo(cur + 1); });
+  dots.forEach((d, i) => d.addEventListener('click', () => goTo(i)));
+
+  let touchX = 0;
+  slider.addEventListener('touchstart', e => { touchX = e.touches[0].clientX; }, { passive: true });
+  slider.addEventListener('touchend', e => {
+    const dx = touchX - e.changedTouches[0].clientX;
+    if (Math.abs(dx) > 40) goTo(cur + (dx > 0 ? 1 : -1));
+  }, { passive: true });
+});
+
 /* --- Apartment quick-select from "Inquire about X" buttons --- */
 document.querySelectorAll('.apt-btn').forEach(btn => {
   btn.addEventListener('click', () => {

@@ -205,23 +205,53 @@ em { font-style: italic; color: var(--terracotta); }
   justify-content: center;
   overflow: hidden;
 }
-.hero-bg {
+.hero-slides {
+  position: absolute;
+  inset: 0;
+}
+.hero-slide {
   position: absolute;
   inset: 0;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  opacity: 0;
+  transition: opacity 1.4s ease;
 }
-.hero-bg::after {
+.hero-slide.active { opacity: 1; }
+.hero-slide::after {
   content: '';
   position: absolute;
   inset: 0;
   background: linear-gradient(
     160deg,
-    rgba(0,0,0,.38) 0%,
+    rgba(0,0,0,.40) 0%,
     rgba(0,0,0,.22) 50%,
-    rgba(0,0,0,.35) 100%
+    rgba(0,0,0,.36) 100%
   );
+}
+.hero-dots {
+  position: absolute;
+  bottom: 5.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: .65rem;
+  z-index: 3;
+}
+.hero-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.42);
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: background .35s, transform .35s;
+}
+.hero-dot.active {
+  background: #fff;
+  transform: scale(1.25);
 }
 
 .hero-content {
@@ -837,28 +867,72 @@ em { font-style: italic; color: var(--terracotta); }
 .apt-entry--reverse { direction: rtl; }
 .apt-entry--reverse > * { direction: ltr; }
 
-.apt-photos {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  grid-template-rows: 1fr 1fr;
-  gap: .6rem;
+.apt-slider {
+  position: relative;
   height: 380px;
   border-radius: var(--radius-lg);
   overflow: hidden;
 }
-.apt-photo-main {
-  grid-row: 1 / 3;
+.apt-slides {
+  display: flex;
+  height: 100%;
+  transition: transform .5s cubic-bezier(.4,0,.2,1);
+  will-change: transform;
+}
+.apt-slide {
+  min-width: 100%;
+  height: 100%;
   overflow: hidden;
 }
-.apt-photo-sm { overflow: hidden; }
-.apt-photos img {
+.apt-slide img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform .55s ease;
   display: block;
 }
-.apt-photos img:hover { transform: scale(1.05); }
+.slider-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255,255,255,.88);
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 10px rgba(0,0,0,.18);
+  color: var(--dark);
+  transition: background .2s, box-shadow .2s;
+}
+.slider-btn:hover { background: #fff; box-shadow: 0 4px 18px rgba(0,0,0,.22); }
+.slider-prev { left: .75rem; }
+.slider-next { right: .75rem; }
+.slider-dots {
+  position: absolute;
+  bottom: .85rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: .45rem;
+  z-index: 2;
+}
+.slider-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.55);
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: background .2s, transform .2s;
+}
+.slider-dot.active { background: #fff; transform: scale(1.35); }
 
 .apt-label {
   display: inline-block;
@@ -958,7 +1032,7 @@ em { font-style: italic; color: var(--terracotta); }
   .contact-card { position: static; }
   .apt-entry { grid-template-columns: 1fr; gap: 2rem; }
   .apt-entry--reverse { direction: ltr; }
-  .apt-photos { height: 320px; }
+  .apt-slider { height: 320px; }
   .location-facts { grid-template-columns: repeat(2, 1fr); }
 }
 
@@ -1007,7 +1081,7 @@ em { font-style: italic; color: var(--terracotta); }
   .loc-photo--main { grid-row: auto; }
   .location-facts { grid-template-columns: 1fr 1fr; }
   /* Apartments */
-  .apt-photos { height: 280px; }
+  .apt-slider { height: 280px; }
 
   /* Footer */
   .footer-grid { grid-template-columns: 1fr; gap: 2.5rem; }
