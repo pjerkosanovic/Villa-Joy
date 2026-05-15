@@ -1,5 +1,7 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=$HOMEDIR/public_html/
-    - /bin/cp -R $HOMEDIR/repositories/Villa-Joy/. $DEPLOYPATH
+    - /bin/cp /home/wwwapartmentsjoy/repositories/Villa-Joy/index.html /home/wwwapartmentsjoy/public_html/index.html
+    - /bin/cp /home/wwwapartmentsjoy/repositories/Villa-Joy/css/style.css /home/wwwapartmentsjoy/public_html/css/style.css
+    - /bin/cp /home/wwwapartmentsjoy/repositories/Villa-Joy/js/main.js /home/wwwapartmentsjoy/public_html/js/main.js
+    - /usr/bin/rsync -a --ignore-existing /home/wwwapartmentsjoy/repositories/Villa-Joy/images/ /home/wwwapartmentsjoy/public_html/images/
