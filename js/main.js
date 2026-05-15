@@ -35,66 +35,6 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   });
 });
 
-/* --- Gallery lightbox --- */
-const galleryItems = Array.from(document.querySelectorAll('.gallery-item'));
-const lightbox     = document.getElementById('lightbox');
-const lbImg        = document.getElementById('lbImg');
-const lbCaption    = document.getElementById('lbCaption');
-const lbClose      = document.getElementById('lbClose');
-const lbPrev       = document.getElementById('lbPrev');
-const lbNext       = document.getElementById('lbNext');
-
-const galleryData = galleryItems.map(item => ({
-  src:     item.querySelector('img').src,
-  alt:     item.querySelector('img').alt,
-  caption: item.querySelector('.gi-overlay span')?.textContent ?? '',
-}));
-
-let currentIdx = 0;
-
-function openLightbox(index) {
-  currentIdx = index;
-  setLightboxImage(index);
-  lightbox.classList.add('active');
-  document.body.style.overflow = 'hidden';
-  lbClose.focus();
-}
-
-function closeLightbox() {
-  lightbox.classList.remove('active');
-  document.body.style.overflow = '';
-}
-
-function setLightboxImage(index) {
-  lbImg.src        = galleryData[index].src;
-  lbImg.alt        = galleryData[index].alt;
-  lbCaption.textContent = galleryData[index].caption;
-}
-
-function navigate(dir) {
-  currentIdx = (currentIdx + dir + galleryData.length) % galleryData.length;
-  setLightboxImage(currentIdx);
-}
-
-galleryItems.forEach((item, i) => {
-  item.addEventListener('click', () => openLightbox(i));
-  item.setAttribute('tabindex', '0');
-  item.setAttribute('role', 'button');
-  item.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') openLightbox(i); });
-});
-
-lbClose.addEventListener('click', closeLightbox);
-lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
-lbPrev.addEventListener('click', e => { e.stopPropagation(); navigate(-1); });
-lbNext.addEventListener('click', e => { e.stopPropagation(); navigate(1); });
-
-document.addEventListener('keydown', e => {
-  if (!lightbox.classList.contains('active')) return;
-  if (e.key === 'Escape')      closeLightbox();
-  if (e.key === 'ArrowLeft')   navigate(-1);
-  if (e.key === 'ArrowRight')  navigate(1);
-});
-
 /* --- Hero slideshow --- */
 const heroSlides = Array.from(document.querySelectorAll('.hero-slide'));
 const heroDots   = Array.from(document.querySelectorAll('.hero-dot'));
@@ -217,7 +157,7 @@ bookingForm.addEventListener('submit', e => {
 
 /* --- Intersection Observer: fade-in on scroll --- */
 const fadeTargets = document.querySelectorAll(
-  '.amenity-card, .gallery-item, .about-grid, .location-grid, .contact-card, .stat'
+  '.amenity-card, .about-grid, .location-grid, .contact-card, .stat'
 );
 
 const fadeObserver = new IntersectionObserver((entries) => {
