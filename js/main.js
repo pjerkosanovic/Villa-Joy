@@ -69,7 +69,7 @@ document.querySelectorAll('.apt-slider').forEach(slider => {
 
   function goTo(n) {
     cur = ((n % items.length) + items.length) % items.length;
-    track.style.transform = `translateX(-${cur * 100}%)`;
+    track.style.transform = `translateX(-${cur * slider.offsetWidth}px)`;
     dots.forEach((d, i) => d.classList.toggle('active', i === cur));
   }
 
