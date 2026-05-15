@@ -1,0 +1,5 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=$HOMEDIR/public_html/
+    - /bin/cp -R $HOMEDIR/repositories/Villa-Joy/. $DEPLOYPATH
